@@ -296,7 +296,7 @@ pub fn promote_thread_to_real_time_internal(
         Ok(_) => Ok(handle),
         Err(e) => {
             let (_, _, limits) = get_limits()?;
-            if limits.rlim_cur != libc::RLIM_INFINITY
+            if limits.rlim_cur != libc::RLIM_INFINITY.into()
                 && unsafe { libc::setrlimit64(libc::RLIMIT_RTTIME, &limits) } < 0
             {
                 return Err(AudioThreadPriorityError::new_with_inner(
